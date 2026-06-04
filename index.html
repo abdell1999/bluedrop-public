@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="BlueDrop — Automatically saves your parking location the moment you step out of your car. No taps. No account. Your data stays on your device.">
+  <title>BlueDrop — Smart Parking, Automated</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue:       #2563EB;
+      --blue-dark:  #1d4ed8;
+      --blue-faint: #eff6ff;
+      --text:       #0f172a;
+      --muted:      #64748b;
+      --border:     #e2e8f0;
+      --bg-alt:     #f8fafc;
+      --radius:     12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: var(--text);
+      background: #fff;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+    /* ── NAV ─────────────────────────────────────────── */
+    .nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav__inner {
+      max-width: 1080px; margin: 0 auto; padding: 0 24px;
+      height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: relative;
+    }
+    .nav__brand {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 17px; font-weight: 700; letter-spacing: -.3px;
+      color: var(--text); text-decoration: none;
+    }
+    .nav__brand-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--blue); flex-shrink: 0;
+    }
+    .nav__links {
+      display: flex; gap: 32px; list-style: none;
+    }
+    .nav__links a {
+      font-size: 14px; font-weight: 500; color: var(--muted);
+      text-decoration: none; transition: color .15s;
+    }
+    .nav__links a:hover { color: var(--text); }
+    .nav__burger {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer; padding: 6px;
+    }
+    .nav__burger span {
+      display: block; width: 20px; height: 2px;
+      background: var(--text); border-radius: 2px; transition: .2s;
+    }
+
+    /* ── HERO ────────────────────────────────────────── */
+    .hero { padding: 96px 24px 72px; text-align: center; }
+
+    .hero__badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: var(--blue-faint); color: var(--blue);
+      border-radius: 20px; padding: 5px 14px;
+      font-size: 13px; font-weight: 600; letter-spacing: .1px;
+      margin-bottom: 32px;
+    }
+    .hero__badge-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--blue); flex-shrink: 0;
+    }
+
+    .hero__title {
+      font-size: 56px; font-weight: 800;
+      line-height: 1.06; letter-spacing: -2px;
+      color: var(--text);
+      max-width: 680px; margin: 0 auto 22px;
+    }
+    .hero__title span { color: var(--blue); }
+
+    .hero__sub {
+      font-size: 19px; color: var(--muted); line-height: 1.65;
+      max-width: 500px; margin: 0 auto 44px;
+    }
+
+    .hero__cta {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 14px;
+      margin-bottom: 64px;
+    }
+
+    /* Play Store badge */
+    .play-btn {
+      display: inline-flex; align-items: center; gap: 12px;
+      background: var(--text); color: #fff;
+      border-radius: 10px; padding: 12px 22px;
+      text-decoration: none; transition: opacity .15s;
+      opacity: .65; cursor: default;
+      border: none;
+    }
+    .play-btn__icon { width: 26px; height: 26px; flex-shrink: 0; }
+    .play-btn__text { display: flex; flex-direction: column; text-align: left; }
+    .play-btn__sub  { font-size: 11px; opacity: .7; margin-bottom: 2px; line-height: 1; }
+    .play-btn__main { font-size: 18px; font-weight: 700; line-height: 1; letter-spacing: -.3px; }
+
+    .hero__note { font-size: 13px; color: var(--muted); }
+
+    /* Phone mockup */
+    .phone-wrap { display: flex; justify-content: center; }
+    .phone {
+      width: 196px; height: 376px;
+      background: #0f172a; border-radius: 38px; padding: 10px;
+      box-shadow: 0 32px 80px rgba(15,23,42,.2), 0 0 0 1px rgba(255,255,255,.05);
+    }
+    .phone__screen {
+      width: 100%; height: 100%; border-radius: 30px;
+      overflow: hidden; background: #e6f1fb;
+      display: flex; flex-direction: column;
+    }
+    .phone__map {
+      flex: 1;
+      background: linear-gradient(170deg, #c5d8f0 0%, #9bbde8 45%, #c5e3ac 100%);
+      position: relative;
+    }
+    .phone__pin {
+      position: absolute; top: 38%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 32px; height: 32px;
+      filter: drop-shadow(0 2px 5px rgba(0,0,0,.25));
+    }
+    .phone__info {
+      background: #fff; padding: 12px 14px;
+      border-top: 1px solid #e2e8f0;
+    }
+    .phone__addr { font-size: 12px; font-weight: 700; color: #0f172a; }
+    .phone__time { font-size: 10px; color: #94a3b8; margin-top: 2px; }
+
+    /* ── HOW IT WORKS ────────────────────────────────── */
+    .how { background: var(--bg-alt); padding: 96px 0; }
+
+    .overline {
+      font-size: 11px; font-weight: 700; letter-spacing: 1.4px;
+      text-transform: uppercase; color: var(--blue);
+      text-align: center; margin-bottom: 14px;
+    }
+    .section-title {
+      font-size: 36px; font-weight: 800; letter-spacing: -1px;
+      color: var(--text); text-align: center; margin-bottom: 10px;
+    }
+    .section-sub {
+      font-size: 17px; color: var(--muted);
+      text-align: center; margin-bottom: 56px;
+    }
+
+    .steps {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 2px;
+      border-radius: var(--radius); overflow: hidden;
+    }
+    .step { background: #fff; padding: 36px 28px; }
+    .step__num {
+      font-size: 11px; font-weight: 700; letter-spacing: 1px;
+      color: var(--blue); margin-bottom: 20px;
+    }
+    .step__icon { margin-bottom: 14px; }
+    .icon {
+      width: 28px; height: 28px;
+      color: var(--blue);
+    }
+    .step__title { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+    .step__desc  { font-size: 14px; color: var(--muted); line-height: 1.65; }
+
+    /* ── FEATURES ────────────────────────────────────── */
+    .features { padding: 96px 0; }
+
+    .features__grid {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 1px; background: var(--border);
+      border: 1px solid var(--border); border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .feat { background: #fff; padding: 32px 26px; }
+    .feat__icon { margin-bottom: 14px; }
+    .feat h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+    .feat p  { font-size: 14px; color: var(--muted); line-height: 1.65; }
+
+    /* ── COMING SOON CTA ─────────────────────────────── */
+    .cta-section {
+      background: var(--text); padding: 96px 0;
+      text-align: center; color: #fff;
+    }
+    .cta-section .overline { color: #475569; }
+    .cta-section .section-title { color: #fff; }
+    .cta-section .section-sub   { color: #94a3b8; margin-bottom: 40px; }
+
+    .cta-section .play-btn {
+      background: #fff; color: var(--text);
+      margin: 0 auto;
+    }
+    .cta-section .play-btn .play-btn__sub { opacity: .55; }
+
+    .cta__fine {
+      font-size: 13px; color: #475569; margin-top: 16px;
+    }
+    .cta__fine a { color: #64748b; }
+    .cta__fine a:hover { color: #94a3b8; }
+
+    /* ── FOOTER ─────────────────────────────────────── */
+    .footer { border-top: 1px solid var(--border); padding: 24px 0; }
+    .footer__inner {
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    }
+    .footer__brand {
+      font-size: 15px; font-weight: 700; color: var(--text);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .footer__brand-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--blue);
+    }
+    .footer__links { display: flex; gap: 20px; }
+    .footer__links a {
+      font-size: 14px; color: var(--muted); text-decoration: none;
+      transition: color .15s;
+    }
+    .footer__links a:hover { color: var(--text); }
+    .footer__copy { font-size: 13px; color: var(--muted); }
+
+    /* ── RESPONSIVE ──────────────────────────────────── */
+    @media (max-width: 768px) {
+      .nav__links {
+        display: none; flex-direction: column;
+        position: absolute; top: 60px; left: 0; right: 0;
+        background: #fff; border-bottom: 1px solid var(--border);
+        padding: 16px 24px; gap: 16px;
+        box-shadow: 0 8px 24px rgba(0,0,0,.08);
+      }
+      .nav__links--open { display: flex; }
+      .nav__burger { display: flex; }
+
+      .hero { padding: 64px 24px 56px; }
+      .hero__title { font-size: 38px; letter-spacing: -1.2px; }
+      .hero__sub  { font-size: 17px; }
+
+      .steps { grid-template-columns: 1fr; }
+      .features__grid { grid-template-columns: 1fr 1fr; }
+
+      .footer__inner { flex-direction: column; text-align: center; gap: 12px; }
+    }
+
+    @media (max-width: 480px) {
+      .hero__title { font-size: 30px; letter-spacing: -.8px; }
+      .section-title { font-size: 28px; }
+      .features__grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="top">
+  <div class="nav__inner">
+    <a href="#top" class="nav__brand">
+      <span class="nav__brand-dot" aria-hidden="true"></span>
+      BlueDrop
+    </a>
+    <ul class="nav__links" id="navLinks" role="list">
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="privacy-policy.html">Privacy</a></li>
+    </ul>
+    <button class="nav__burger" id="navBurger"
+      aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero__badge">
+    <span class="hero__badge-dot" aria-hidden="true"></span>
+    Coming soon to Android
+  </div>
+  <h1 class="hero__title">Never lose your<br><span>parking spot</span> again.</h1>
+  <p class="hero__sub">BlueDrop detects when you step out of your car and saves your parking location automatically. No taps. No account. Your data stays on your device.</p>
+  <div class="hero__cta">
+    <span role="img" aria-label="Coming soon on Google Play">
+      <span class="play-btn" aria-disabled="true">
+        <svg class="play-btn__icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path fill="#EA4335" d="M6.5 43.5c.6.35 1.3.33 1.9 0L33 29.25 26.75 23z"/>
+          <path fill="#FBBC04" d="M41.5 19.75L36 16.5 29.25 23 36 29.5l5.5-3.15c1.55-.9 1.55-3.25 0-4.6z"/>
+          <path fill="#4285F4" d="M6.5 4.5C5.9 4.85 5.5 5.55 5.5 6.35v35.3c0 .8.4 1.5 1 1.85L29 23z"/>
+          <path fill="#34A853" d="M8.4 4.5L32.75 23 26.75 23 8.4 4.5z"/>
+        </svg>
+        <span class="play-btn__text">
+          <span class="play-btn__sub">Get it on</span>
+          <span class="play-btn__main">Google Play</span>
+        </span>
+      </span>
+    </span>
+    <p class="hero__note">Available soon on the Play Store &mdash; free, no ads</p>
+  </div>
+  <div class="phone-wrap" aria-hidden="true">
+    <div class="phone">
+      <div class="phone__screen">
+        <div class="phone__map">
+          <svg class="phone__pin" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path fill="#1d4ed8" d="M12 2C8.686 2 6 4.686 6 8c0 4.5 6 12 6 12s6-7.5 6-12c0-3.314-2.686-6-6-6z"/>
+            <circle fill="white" cx="12" cy="8" r="2.2"/>
+          </svg>
+        </div>
+        <div class="phone__info">
+          <div class="phone__addr">High Street, 42</div>
+          <div class="phone__time">23 min ago &middot; 320 m away</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="container">
+    <p class="overline">How it works</p>
+    <h2 class="section-title">Three steps. Zero effort.</h2>
+    <p class="section-sub">Everything happens in the background, automatically.</p>
+    <div class="steps">
+      <div class="step">
+        <p class="step__num">01</p>
+        <div class="step__icon">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 17H3v-4l2.5-5h11l2.5 5v4h-2"/>
+            <circle cx="7.5" cy="17" r="1.5"/>
+            <circle cx="16.5" cy="17" r="1.5"/>
+            <path d="M5 13h14"/>
+          </svg>
+        </div>
+        <h3 class="step__title">You leave your car</h3>
+        <p class="step__desc">Your car's Bluetooth disconnects. BlueDrop catches that exact moment without you doing anything.</p>
+      </div>
+      <div class="step">
+        <p class="step__num">02</p>
+        <div class="step__icon">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 2C8.686 2 6 4.686 6 8c0 4.5 6 12 6 12s6-7.5 6-12c0-3.314-2.686-6-6-6z"/>
+            <circle cx="12" cy="8" r="2"/>
+          </svg>
+        </div>
+        <h3 class="step__title">Location is saved</h3>
+        <p class="step__desc">GPS coordinates and street address are captured instantly. Stored only on your device — no external servers.</p>
+      </div>
+      <div class="step">
+        <p class="step__num">03</p>
+        <div class="step__icon">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polygon points="3 11 22 2 13 21 11 13 3 11"/>
+          </svg>
+        </div>
+        <h3 class="step__title">Navigate back</h3>
+        <p class="step__desc">Open BlueDrop and get turn-by-turn directions from wherever you are back to your car.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="container">
+    <p class="overline">Features</p>
+    <h2 class="section-title">Simple by design.</h2>
+    <p class="section-sub">Everything you need. Nothing you don't.</p>
+    <div class="features__grid">
+      <div class="feat">
+        <div class="feat__icon">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+          </svg>
+        </div>
+        <h3>Fully automatic</h3>
+        <p>No button to press. Bluetooth disconnect is the trigger. BlueDrop handles the rest.</p>
+      </div>
+      <div class="feat">
+        <div class="feat__icon">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="11" width="18" height="11" rx="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </div>
+        <h3>100% private</h3>
+        <p>All location data lives on your phone. No cloud sync, no analytics, no third-party trackers.</p>
+      </div>
+      <div class="feat">
+        <div class="feat__icon">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <h3>Full history</h3>
+        <p>Browse every past parking spot with address, date, time, and an integrated map view.</p>
+      </div>
+      <div class="feat">
+        <div class="feat__icon">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="1" y1="1" x2="23" y2="23"/>
+            <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/>
+            <path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/>
+            <path d="M10.71 5.05A16 16 0 0 1 22.56 9"/>
+            <path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"/>
+            <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+            <line x1="12" y1="20" x2="12.01" y2="20"/>
+          </svg>
+        </div>
+        <h3>Works offline</h3>
+        <p>Location saving requires no internet connection. Maps load from OpenStreetMap when online.</p>
+      </div>
+      <div class="feat">
+        <div class="feat__icon">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+          </svg>
+        </div>
+        <h3>Notes &amp; photos</h3>
+        <p>Attach a note or photo to any record — handy for parking garage levels or bay numbers.</p>
+      </div>
+      <div class="feat">
+        <div class="feat__icon">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+        </div>
+        <h3>Instant notification</h3>
+        <p>A notification showing your parking address appears the moment you step out of the car.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMING SOON CTA -->
+<section class="cta-section">
+  <div class="container">
+    <p class="overline">Coming soon</p>
+    <h2 class="section-title">Coming to Google Play.</h2>
+    <p class="section-sub">Free. No ads. No account required.<br>Requires Android 8.0+ and a Bluetooth-equipped vehicle.</p>
+    <span class="play-btn" aria-disabled="true" role="img" aria-label="Coming soon on Google Play">
+      <svg class="play-btn__icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path fill="#EA4335" d="M6.5 43.5c.6.35 1.3.33 1.9 0L33 29.25 26.75 23z"/>
+        <path fill="#FBBC04" d="M41.5 19.75L36 16.5 29.25 23 36 29.5l5.5-3.15c1.55-.9 1.55-3.25 0-4.6z"/>
+        <path fill="#4285F4" d="M6.5 4.5C5.9 4.85 5.5 5.55 5.5 6.35v35.3c0 .8.4 1.5 1 1.85L29 23z"/>
+        <path fill="#34A853" d="M8.4 4.5L32.75 23 26.75 23 8.4 4.5z"/>
+      </svg>
+      <span class="play-btn__text">
+        <span class="play-btn__sub">Get it on</span>
+        <span class="play-btn__main">Google Play</span>
+      </span>
+    </span>
+    <p class="cta__fine">Questions? <a href="mailto:abdull26071999@gmail.com">abdull26071999@gmail.com</a></p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__inner">
+      <span class="footer__brand">
+        <span class="footer__brand-dot" aria-hidden="true"></span>
+        BlueDrop
+      </span>
+      <nav class="footer__links" aria-label="Footer navigation">
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="mailto:abdull26071999@gmail.com">Contact</a>
+      </nav>
+      <span class="footer__copy">&copy; 2026 BlueDrop</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    const burger = document.getElementById('navBurger');
+    const links  = document.getElementById('navLinks');
+    if (!burger || !links) return;
+    burger.addEventListener('click', function () {
+      var open = links.classList.toggle('nav__links--open');
+      burger.setAttribute('aria-expanded', String(open));
+    });
+    links.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () {
+        links.classList.remove('nav__links--open');
+        burger.setAttribute('aria-expanded', 'false');
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>

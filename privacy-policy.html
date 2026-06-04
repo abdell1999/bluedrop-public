@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — BlueDrop</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue:      #2563EB;
+      --blue-dark: #1d4ed8;
+      --blue-faint:#eff6ff;
+      --text:      #0f172a;
+      --muted:     #64748b;
+      --border:    #e2e8f0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 16px; line-height: 1.7;
+      color: var(--text); background: #fff;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      border-bottom: 1px solid var(--border);
+      padding: 32px 24px;
+    }
+    .header__inner {
+      max-width: 760px; margin: 0 auto;
+    }
+    .back {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 14px; font-weight: 500; color: var(--muted);
+      text-decoration: none; margin-bottom: 20px;
+      transition: color .15s;
+    }
+    .back:hover { color: var(--text); }
+    .back svg { width: 14px; height: 14px; }
+
+    .header__brand {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 8px;
+    }
+    .header__dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--blue); flex-shrink: 0;
+    }
+    .header__app { font-size: 15px; font-weight: 600; color: var(--text); }
+
+    .header h1 {
+      font-size: 28px; font-weight: 800; letter-spacing: -.6px;
+      color: var(--text); margin-bottom: 6px;
+    }
+    .header__date { font-size: 13px; color: var(--muted); }
+
+    /* ── MAIN ── */
+    main {
+      max-width: 760px; margin: 0 auto;
+      padding: 48px 24px 96px;
+    }
+
+    section { margin-bottom: 40px; }
+
+    h2 {
+      font-size: 17px; font-weight: 700;
+      color: var(--text); margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 8px;
+    }
+    h2 .sec-num {
+      font-size: 11px; font-weight: 700; letter-spacing: .8px;
+      color: var(--blue); background: var(--blue-faint);
+      border-radius: 4px; padding: 2px 7px;
+      flex-shrink: 0;
+    }
+
+    h3 {
+      font-size: 15px; font-weight: 600;
+      color: var(--text); margin: 20px 0 6px;
+    }
+
+    p { color: #374151; margin-bottom: 10px; font-size: 15px; }
+
+    ul {
+      padding-left: 20px; color: #374151; font-size: 15px;
+    }
+    ul li { margin-bottom: 6px; }
+
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Table */
+    .table-wrap { overflow-x: auto; margin-top: 12px; }
+    table {
+      width: 100%; border-collapse: collapse;
+      font-size: 14px;
+    }
+    th {
+      background: var(--blue-faint);
+      color: var(--blue-dark);
+      text-align: left; padding: 10px 14px;
+      font-weight: 600; border-bottom: 2px solid #bfdbfe;
+    }
+    td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      color: #374151; vertical-align: top;
+    }
+    tr:last-child td { border-bottom: none; }
+
+    /* Callout */
+    .callout {
+      background: var(--blue-faint);
+      border-left: 3px solid var(--blue);
+      border-radius: 0 8px 8px 0;
+      padding: 14px 18px; margin: 16px 0;
+      font-size: 14px; color: #1e40af; line-height: 1.6;
+    }
+
+    /* Contact box */
+    .contact {
+      border: 1px solid var(--border); border-radius: 10px;
+      padding: 20px 24px; margin-top: 12px;
+      font-size: 15px;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 20px 24px;
+      text-align: center;
+      font-size: 13px; color: var(--muted);
+    }
+
+    @media (max-width: 480px) {
+      .header h1 { font-size: 22px; }
+      main { padding: 32px 16px 64px; }
+      th, td { padding: 8px 10px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header__inner">
+    <a href="index.html" class="back">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M10 13L5 8l5-5"/>
+      </svg>
+      Back to home
+    </a>
+    <div class="header__brand">
+      <span class="header__dot" aria-hidden="true"></span>
+      <span class="header__app">BlueDrop</span>
+    </div>
+    <h1>Privacy Policy</h1>
+    <p class="header__date">Last updated: June 2026</p>
+  </div>
+</header>
+
+<main>
+
+  <section>
+    <h2><span class="sec-num">01</span> Overview</h2>
+    <p>BlueDrop is an Android application that automatically saves your parking location when your vehicle's Bluetooth device disconnects. This policy describes what data the app collects, how it is used, and what rights you have over it.</p>
+  </section>
+
+  <section>
+    <h2><span class="sec-num">02</span> Data collected</h2>
+
+    <h3>GPS location</h3>
+    <p>BlueDrop accesses the device's precise location in the background to record the exact coordinates at the moment your vehicle's Bluetooth disconnects. This location is stored solely on your device and is never transmitted to external servers.</p>
+
+    <h3>Bluetooth device information</h3>
+    <p>The app reads the name and MAC address of the paired Bluetooth devices you select. This information is used exclusively to identify when your vehicle disconnects and is never sent to any external server.</p>
+
+    <h3>Parking records</h3>
+    <p>Each time a disconnect from a monitored device is detected, the app locally stores: GPS coordinates, street address (obtained via Android's geocoding service), date and time, and the Bluetooth device name. You may optionally attach a photo and a note to each record.</p>
+
+    <h3>Photos</h3>
+    <p>Photos taken of the parking location are stored in the app's private storage on your device. They are not uploaded to any external service.</p>
+  </section>
+
+  <section>
+    <h2><span class="sec-num">03</span> How data is used</h2>
+    <p>All collected data is used exclusively to provide the app's core functionality: showing you where you parked your vehicle. It is not used for advertising, behavioral analytics, or any other purpose.</p>
+  </section>
+
+  <section>
+    <h2><span class="sec-num">04</span> Storage and security</h2>
+    <div class="callout">
+      All data is stored locally on your device. BlueDrop has no servers of its own and performs no cloud synchronization.
+    </div>
+    <p>Data is accessible only from within the app itself and is deleted if you uninstall the app or clear its data from Android's system settings.</p>
+    <p>The only network request the app makes is downloading map tiles from <strong>OpenStreetMap</strong> (openstreetmap.org) to display the map. This exposes only your device's IP address to OpenStreetMap — the same as visiting any website. BlueDrop has no control over what OpenStreetMap may log; see their policy at <a href="https://openstreetmap.org/privacy">openstreetmap.org/privacy</a>.</p>
+  </section>
+
+  <section>
+    <h2><span class="sec-num">05</span> Data sharing</h2>
+    <p>BlueDrop <strong>does not share any personal data with third parties</strong>. No advertising SDKs, analytics libraries, or social network integrations are included.</p>
+  </section>
+
+  <section>
+    <h2><span class="sec-num">06</span> Permissions</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Permission</th><th>Reason</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Precise location</td>
+            <td>Save the exact GPS coordinates of the parking spot</td>
+          </tr>
+          <tr>
+            <td>Background location</td>
+            <td>Detect Bluetooth disconnect while the screen is off</td>
+          </tr>
+          <tr>
+            <td>Bluetooth</td>
+            <td>Read the name and MAC address of the vehicle device</td>
+          </tr>
+          <tr>
+            <td>Notifications</td>
+            <td>Notify you when a parking location is saved</td>
+          </tr>
+          <tr>
+            <td>Camera</td>
+            <td>Take a photo of the parking spot (optional)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="sec-num">07</span> Your rights</h2>
+    <p>At any time you can:</p>
+    <ul>
+      <li><strong>View</strong> all your parking records from the History screen</li>
+      <li><strong>Delete</strong> any individual record from that same screen</li>
+      <li><strong>Edit</strong> notes and photos attached to any record</li>
+      <li><strong>Delete all data</strong> by uninstalling the app or clearing its data from Android's system settings</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><span class="sec-num">08</span> Children</h2>
+    <p>BlueDrop is not directed at children under 13 and does not knowingly collect data from minors.</p>
+  </section>
+
+  <section>
+    <h2><span class="sec-num">09</span> Policy changes</h2>
+    <p>Any material changes to this policy will be communicated by updating the date at the top of this document. Continued use of the app after changes are published constitutes acceptance of the updated policy.</p>
+  </section>
+
+  <section>
+    <h2><span class="sec-num">10</span> Contact</h2>
+    <p>For any privacy-related questions:</p>
+    <div class="contact">
+      📧 <a href="mailto:abdull26071999@gmail.com">abdull26071999@gmail.com</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  &copy; 2026 BlueDrop
+</footer>
+
+</body>
+</html>
