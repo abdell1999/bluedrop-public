@@ -1,0 +1,53 @@
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#1E293B" />
+            <stop offset="100%" stop-color="#0F172A" />
+        </linearGradient>
+
+        <linearGradient id="brandColor" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#38BDF8" />
+            <stop offset="100%" stop-color="#2563EB" />
+        </linearGradient>
+    </defs>
+
+    <rect width="512" height="512" rx="112" fill="url(#bgGrad)" />
+
+    <g id="parksense-icon">
+        
+        <path d="M256,48 C163.2,48 88,123.2 88,216 C88,348 256,480 256,480 C256,480 424,348 424,216 C424,123.2 348.8,48 256,48 Z" 
+              fill="rgba(255, 255, 255, 0.03)" 
+              stroke="#FFFFFF" 
+              stroke-width="12" 
+              stroke-linejoin="round"/>
+
+        <ellipse cx="256" cy="274" rx="80" ry="8" fill="#000000" opacity="0.4" />
+
+        <g stroke="#38BDF8" stroke-width="8" stroke-linecap="round" fill="none">
+            <path d="M 240 145 Q 256 135 272 145" />
+            <path d="M 225 125 Q 256 100 287 125" />
+            <path d="M 210 105 Q 256 70 302 105" />
+        </g>
+
+        <g id="car">
+            <rect x="200" y="240" width="20" height="30" rx="6" fill="#64748B" />
+            <rect x="292" y="240" width="20" height="30" rx="6" fill="#64748B" />
+
+            <rect x="174" y="208" width="16" height="10" rx="3" fill="url(#brandColor)" />
+            <rect x="322" y="208" width="16" height="10" rx="3" fill="url(#brandColor)" />
+
+            <path d="M 220 160 Q 256 150 292 160 L 310 210 L 202 210 Z" fill="url(#brandColor)" />
+            
+            <rect x="186" y="210" width="140" height="40" rx="12" fill="url(#brandColor)" />
+
+            <path d="M 225 168 Q 256 160 287 168 L 300 205 L 212 205 Z" fill="#0F172A" />
+
+            <circle cx="210" cy="230" r="6" fill="#FFFFFF" />
+            <circle cx="302" cy="230" r="6" fill="#FFFFFF" />
+
+            <rect x="236" y="226" width="40" height="8" rx="4" fill="#0F172A" />
+
+            <rect x="246" y="242" width="20" height="4" rx="2" fill="#FFFFFF" opacity="0.8" />
+        </g>
+    </g>
+</svg>
